@@ -2,13 +2,28 @@
 
 DOCKER_USER="santhiyasasi"
 
-echo "Login to DockerHub"
+echo "Logging into DockerHub..."
+
 echo $DOCKER_PASS | docker login -u $DOCKER_USER --password-stdin
 
-echo "Building DEV image"
+BRANCH=$(git rev-parse --abbrev-ref HEAD)
 
-docker build -t $DOCKER_USER/devops-app-dev:latest .
+echo "Current branch: $BRANCH"
 
-echo "Pushing DEV image"
+if [ "$BRANCH" = "dev" ]; then
 
-docker push $DOCKER_USER/devops-app-dev:latest
+  echo "Building DEV image"
+  docker build -t $DOCKER_USER/devops-app-dev:latest .
+
+  echo "Pushing DEV image"
+  docker push $DOCKER_USER/devops-app-dev:latest
+
+elif [ "$BRANCH" = "master" ]; then
+
+  echo "Building PROD image"
+  docker build -t $DOCKER_USER/devops-app-prod:latest .
+
+  echo "Pushing PROD image"
+  docker push $DOCKER_USER/devops-app-prod:latest
+
+fi
