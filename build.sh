@@ -1,17 +1,14 @@
 #!/bin/bash
 
 DOCKER_USER="santhiyasasi"
-IMAGE_NAME="devops-app"
-DOCKER_PASS="dckr_pat_8Cw25UmrsvgETCHWXwD1dSP8vwg"
 
-echo "Logging into DockerHub..."
-
+echo "Login to DockerHub"
 echo $DOCKER_PASS | docker login -u $DOCKER_USER --password-stdin
 
-echo "Building Docker Image..."
+echo "Building DEV image"
 
-docker build -t $DOCKER_USER/$IMAGE_NAME:dev .
+docker build -t $DOCKER_USER/devops-app-dev:latest .
 
-echo "Pushing Docker Image..."
+echo "Pushing DEV image"
 
-docker push $DOCKER_USER/$IMAGE_NAME:dev
+docker push $DOCKER_USER/devops-app-dev:latest
